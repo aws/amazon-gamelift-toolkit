@@ -51,6 +51,7 @@ To install the required tools, run the following command in CloudShell:
 ```bash
 cd amazon-gamelift-toolkit/development-instance-with-amazon-gamelift-anywhere-and-gamelift-agent
 sudo yum install java maven -y
+
 ```
 
 **Open** the `deploy_dev_instance.sh` file in a text editor such as nano (`nano deploy_dev_instance.sh`) in AWS CloudShell, and **set** the name of the S3 Bucket (`BUCKET_NAME`) to a globally unique name of your choice (the namespace is global across AWS customers).
