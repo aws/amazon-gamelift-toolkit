@@ -37,6 +37,7 @@ cd ../LinuxServerBuild/
 zip -r AmazonGameLiftSampleServerBinary.zip .
 cp AmazonGameLiftSampleServerBinary.zip ../../../../
 cd ../../../..
+
 ```
 
 **Clone** this repository by running the following command in CloudShell:
