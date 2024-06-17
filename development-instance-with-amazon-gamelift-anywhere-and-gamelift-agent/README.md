@@ -92,6 +92,8 @@ The script also utilizes the prebuilt sample server from the [Amazon GameLift In
 
 If you run this script multiple times, it will avoid deploying the resources multiple times by checking if they exist first. It will however always do a new deployment through the SSM Run Command in the end. See [Customizing the configuration to your own needs](#customizing-the-configuration-to-your-own-needs) and [Deploying an updated version of the game server](#deploying-an-updated-version-of-the-game-server) for details on how to customize the solution for your own game server needs and how to deploy new versions without running the full script.
 
+**NOTE:** You will need to **wait for about 30-60 seconds** for the game server to become active to host a game session.
+
 # Test the deployment
 
 Now that you have the game server running, it will take less than a minute for the new compute to register to the Anywhere fleet and the game session to be available.
