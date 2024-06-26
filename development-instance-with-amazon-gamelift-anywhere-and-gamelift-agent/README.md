@@ -8,6 +8,8 @@ You will deploy our whole setup in the browser, utilizing the AWS Management Con
 
 **NOTE:** Running these scripts will incur costs on your AWS account.
 
+To learn more about developing and testing your games on Amazon GameLift, see [Set up for iterative development with Amazon GameLift Anywhere](https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-dev-iteration.html)
+
 # Contents
 
 This sample consists of a deployment script and a configuration file:
