@@ -154,7 +154,7 @@ This will download the new game server build to the instance, terminate the agen
 
 After you've completed development testing and you're ready to prepare for launch, this is a good time to switch over to Amazon GameLift managed fleets. Use managed fleets to fine-tune and test your game hosting resources.  It requires minimal effort to transition from a cloud-based Anywhere test fleet to an Amazon GameLift managed fleet. You don't need to change any game code, and you can reuse the same queues and matchmakers.
 
-See the documentation for details on [transitioning to a managed Amazon GameLift fleet](http://sella-al2.aka.corp.amazon.com/GLdevguide/build/AWSGameLiftDocs/AWSGameLiftDocs-3.0/AL2_x86_64/DEV.STD.PTHREAD/build/server-root/gamelift/latest/developerguide/integration-dev-iteration-cloud.html#integration-dev-iteration-cloud-transition)
+See the documentation for details on [transitioning to a managed Amazon GameLift fleet](h[ttp://sella-al2.aka.corp.amazon.com/GLdevguide/build/AWSGameLiftDocs/AWSGameLiftDocs-3.0/AL2_x86_64/DEV.STD.PTHREAD/build/server-root/gamelift/latest/developerguide](https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-dev-iteration-cloud.html#integration-dev-iteration-cloud-transition)
 
 # Clean up
 
