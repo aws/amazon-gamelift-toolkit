@@ -86,7 +86,7 @@ These are the more detailed steps on setting up your Unreal Engine project with 
 14. Once it’s packaged, copy the files `libcrypto.so-.1.1` and `libssl.so.1.1` to your package folder under `<YOURGAME>/Binaries/Linux`
 15. Create an install.sh file in the root of the build. Replace `<YOURGAME>`  and `<YOURGAMEBINARY>` with the correct folder and binary name. Maku sure you have Unix line endings in the script by following a guide like this one if you’re creating on Windows.
 ```bash
-* #!/bin/bash
+#!/bin/bash
 
 sudo chmod 777 /local/game/<YOURGAME>/Binaries/Linux/<YOURGAMEBINARY>
 
