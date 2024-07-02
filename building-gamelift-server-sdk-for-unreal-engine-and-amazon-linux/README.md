@@ -1,4 +1,4 @@
-# Building the GameLift Server SDK for Unreal Engine 5 on Amazon Linux
+# Building the Amazon GameLift Server SDK for Unreal Engine 5 on Amazon Linux
 
 This quick quide shows how to build the binaries for the Amazon GameLift Server SDK for Unreal Engine 5 builds on Amazon Linux 2023. The build is done in the AWS Cloud Shell without the need to install any additional tools on your local system. The output binaries can be used with the Amazon GameLift Plugin for Unreal Engine.
 
