@@ -19,10 +19,11 @@ It's important to use the same OpenSSL version as your Unreal Engine 5 version u
 
 ![AWS CloudShell](../development-instance-with-amazon-gamelift-anywhere-and-gamelift-agent/CloudShell.png)
 
-**Clone** this repository by running the following command in CloudShell:
+**Clone** this repository and open the correct folder by running the following command in CloudShell:
 
 ```bash
 git clone https://github.com/aws/amazon-gamelift-toolkit.git
+cd amazon-gamelift-toolkit/building-gamelift-server-sdk-for-unreal-engine-and-amazon-linux/
 ```
 
 **Run** the following command in CloudShell to build the SDK:
