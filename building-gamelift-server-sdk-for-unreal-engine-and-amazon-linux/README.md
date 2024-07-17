@@ -1,6 +1,6 @@
 # Building the Amazon GameLift Server SDK for Unreal Engine 5 on Amazon Linux
 
-This quick quide shows how to build the binaries for the Amazon GameLift Server SDK for Unreal Engine 5 builds on Amazon Linux 2023. The build is done in the AWS Cloud Shell without the need to install any additional tools on your local system. The output binaries can be used with the Amazon GameLift Plugin for Unreal Engine.
+This quick guide shows how to build the binaries for the Amazon GameLift Server SDK for Unreal Engine 5 builds on Amazon Linux 2023. The build is done in the AWS Cloud Shell without the need to install any additional tools on your local system. The output binaries can be used with the Amazon GameLift Plugin for Unreal Engine.
 
 # Contents
 
@@ -50,7 +50,7 @@ These are the more detailed steps on setting up your Unreal Engine project with 
 
 1. Follow the steps to build the SDK and download in Cloud Shell
 2. Build UE5 from source (DevelopmentEditor configuration) to start the editor
-3. Install the [cross-compile toolkit for your UE version](https://dev.epicgames.com/documentation/en-us/unreal-engine/linux-development-requirements-for-unreal-engine?application_version=5.2)
+3. Install the [cross-compile toolkit for your UE version](https://dev.epicgames.com/documentation/en-us/unreal-engine/linux-development-requirements-for-unreal-engine?application_version=5.4)
 4. Create a new C++ based game project (3rd person), or use your existing game project with C++ enabled
 5. Download the [GameLift Unreal Plugin](https://github.com/aws/amazon-gamelift-plugin-unreal/releases/tag/v1.1.1)
   * Unzip the plugin, and then unzip the `amazon-gamelift-plugin-unreal-1.1.1-sdk-5.1.1.zip`
@@ -85,7 +85,7 @@ These are the more detailed steps on setting up your Unreal Engine project with 
 ```
 13. Package the project for Linux. In the Editor select “Platforms”, then select “Linux” and select your Server build target. Then select “Package project”
 14. Once it’s packaged, copy the files `libcrypto.so-.1.1` and `libssl.so.1.1` to your package folder under `<YOURGAME>/Binaries/Linux`
-15. Create an install.sh file in the root of the build. Replace `<YOURGAME>`  and `<YOURGAMEBINARY>` with the correct folder and binary name. Maku sure you have Unix line endings in the script by following a guide like this one if you’re creating on Windows.
+15. Create an install.sh file in the root of the build. Replace `<YOURGAME>`  and `<YOURGAMEBINARY>` with the correct folder and binary name. Make sure you have Unix line endings in the script by following a guide like this one if you’re creating on Windows.
 ```bash
 #!/bin/bash
 
