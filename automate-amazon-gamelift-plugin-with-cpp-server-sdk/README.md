@@ -1,4 +1,3 @@
-- 
 
 # GameLift Plugin / C++ Server SDK Helper Script
 
