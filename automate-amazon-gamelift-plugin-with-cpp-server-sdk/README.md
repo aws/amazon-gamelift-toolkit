@@ -24,7 +24,7 @@ Before running the script, ensure your system meets the following minimum requir
 
 **Windows**:
 
-1. Install the full version of OpenSSL from [Binaries - OpenSSLWiki](https://wiki.openssl.org/index.php/Binaries) or use pre-built ones: [OpenSSL_1.1.1n-win64-SS.zip](https://wiki.agscollab.com/download/attachments/206439670/OpenSSL_1.1.1n-win64-SS.zip?version=1&modificationDate=1721847618073&api=v2)
+1. Install the full version of OpenSSL from [Binaries - OpenSSLWiki](https://wiki.openssl.org/index.php/Binaries)
 2. Add the OpenSSL install directory to the system PATH
 3. Create the following environment variables:
    - `OPENSSL_INCLUDE_DIR = <PATH_TO_OPENSSL_DIR>\include`
