@@ -61,26 +61,13 @@ Before running the script, ensure your system meets the following minimum requir
 
 Please report issues under issues in this repository
 
-## Downloads:
-
-1. Download the `GLDownloadPluginBuildSDK.py` script here > [![](https://wiki.agscollab.com/s/ubtom5/8804/1yuue1v/17.19.4/_/download/resources/com.atlassian.confluence.plugins.confluence-view-file-macro:view-file-macro-resources/images/placeholder-medium-file.png)GLDownloadPluginBuildSDK.py](https://wiki.agscollab.com/download/attachments/206439670/GLDownloadPluginBuildSDK.py?version=9&modificationDate=1721855344979&api=v2)
-
-2. Internal Testing Only Get past AWS VPN on Linux: [GLDownloadPluginBuildSDK.py](https://wiki.agscollab.com/download/attachments/206439670/GLDownloadPluginBuildSDK.py?version=9&modificationDate=1721855344979&api=v2)
-   
-   v0.5 24 Jul 2024 
 
 3. Open a terminal or command prompt and navigate to the script's directory.
 
 ## Output:
 
+Windows:
 This will be the full plugin in your C:\Users\{USERNAME}\.cache\AmazonGameLift\amazon-gamelift-plugin-unreal\GameLiftPlugin
 
-![](https://wiki.agscollab.com/download/attachments/206439670/image-2024-7-24_16-28-21.png?version=1&modificationDate=1721856501190&api=v2)
-
-Windows: 
-
-![](https://wiki.agscollab.com/download/attachments/206439670/image-2024-7-24_16-28-52.png?version=1&modificationDate=1721856532231&api=v2)
-
 Linux:
-
-![](https://wiki.agscollab.com/download/attachments/206439670/image-2024-7-24_16-29-48.png?version=1&modificationDate=1721856588328&api=v2)
+$home\{USERNAME}\.cache\AmazonGameLift\amazon-gamelift-plugin-unreal\GameLiftPlugin
