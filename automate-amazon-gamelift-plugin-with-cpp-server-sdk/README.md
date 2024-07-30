@@ -65,9 +65,10 @@ Please report issues under issues in this repository
 3. Open a terminal or command prompt and navigate to the script's directory.
 
 ## Output:
+This will be the full plugin with the built SDKs
 
 Windows:
-This will be the full plugin in your C:\Users\{USERNAME}\.cache\AmazonGameLift\amazon-gamelift-plugin-unreal\GameLiftPlugin
+ C:\Users\{USERNAME}\.cache\AmazonGameLift\amazon-gamelift-plugin-unreal\GameLiftPlugin
 
 Linux:
 $home\{USERNAME}\.cache\AmazonGameLift\amazon-gamelift-plugin-unreal\GameLiftPlugin
