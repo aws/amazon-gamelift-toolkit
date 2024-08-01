@@ -11,16 +11,19 @@ Downloads the latest version of the Amazon GameLift Plugin for Unreal Engine
 - Handles pre-compiled library binaries and dependencies for specific platforms (if available)
 - Performs final checks to ensure all components are correctly set up and ready for server deployment
 
-## Prerequisites
-
 Before running the script, ensure your system meets the following minimum requirements:
+- ## Minimum requirements:
+- ## Please note: If Strawberry Perl for Windows is installed, this might have conflics with these requirements.
 
-- Microsoft Visual Studio 2012 or later, or GNU Compiler Collection (GCC) 4.9 or later
-- CMake version 3.1 or later
-- A Git client available on the PATH
-- OpenSSL installation, with the version matching the one used by Unreal Engine
+* Either of the following:
+    * Microsoft Visual Studio 2012 or later
+    * GNU Compiler Collection (GCC) 4.9 or later
+* CMake version 3.1 or later
+* A Git client available on the PATH.
+* OpenSSL installation, with the version matching the one used by Unreal Engine
 
 ### OpenSSL Installation
+On Windows and Linux you can check to see if or which OpenSSL version is installed CLI $: openssl version
 
 **Windows**:
 
@@ -35,18 +38,28 @@ Before running the script, ensure your system meets the following minimum requir
    - `OPENSSL_LIBRARIES = <PATH_TO_OPENSSL_DIR>\lib`
    - `OPENSSL_ROOT_DIR = <PATH_TO_OPENSSL_DIR>\OpenSSL`
 
-**Linux**:
+**Linux**: Example of download and building, use the version that matches your Unreal Version.
 
-1. Install the full version of OpenSSL from [Binaries - OpenSSLWiki](https://wiki.openssl.org/index.php/Binaries)
-2. Follow the platform-specific instructions for setting up the OpenSSL environment variables
+1. Unreal OpenSSL Unreal 5.2 - 5.1 (OpenSSL 1.1.1n): wget https://www.openssl.org/source/openssl-1.1.1n.tar.gz
+3. Unreal OpenSSL Unreal 5.4 - 5.3 (OpenSSL 1.1.1t): wget https://www.openssl.org/source/openssl-1.1.1t.tar.gz
+4. Unreal OpenSSL Unreal 5.0 (OpenSSL 1.1.1c): wget https://www.openssl.org/source/openssl-1.1.1c.tar.gz
+5. Extract the source code (Example): tar -xzf openssl-1.1.1t.tar.gz
+6. Change Directory (Example): cd openssl-1.1.1t
+7. Configure and build OpenSSL 1.1.1 (Example): ./config --prefix=/usr/local/openssl-1.1.1
+8. Make: make
+9. Install: sudo make install
+10. Set the environment variables (Example):
+   export OPENSSL_INCLUDE_DIR=/usr/local/openssl-1.1.1/include
+   export OPENSSL_LIBRARIES=/usr/local/openssl-1.1.1/lib
+   export OPENSSL_ROOT_DIR=/usr/local/openssl-1.1.1
+Then, reload the shell configuration: source ~/.bashrc
+Verify the installation: openssl version
 
 ## Usage
 
 1. Download the `GLDownloadPluginBuildSDK.py` script.
 
-2. Open a terminal or command prompt and navigate to the script's directory.
-
-3. Run the script with the appropriate command for your platform:
+2. Run the script with the appropriate command for your platform:
    
    **Windows and Linux**:
    
