@@ -2,6 +2,8 @@
 
 This quick guide shows how to build the binaries for the Amazon GameLift Server SDK for Unreal Engine 5 builds on Amazon Linux 2023. The build is done in the AWS Cloud Shell without the need to install any additional tools on your local system. The output binaries can be used with the Amazon GameLift Plugin for Unreal Engine.
 
+**NOTE:** The fastest way to run the build is to use AWS CloudShell with the instructions below without the need to install any tools locally. If you do however want to run it locally, the only things you need a [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [docker](https://docs.docker.com/get-docker/) installed and you can run the build on MacOS terminal or Windows [WSL](https://learn.microsoft.com/en-us/windows/wsl/install). 
+
 # Contents
 
 This sample consists of a deployment script and a configuration file:
