@@ -8,7 +8,7 @@ Typically updating a build in Amazon GameLift requires uploading the build, crea
 
 With the Fast Build Update Tool, you can copy and overwrite a game server build onto one or more instances in an existing fleet, and then restart any running game server processes with your changes.
 
-> Special thanks to [Rushdown Studios](https://www.rushdownstudio.com/) for developing this tool in consultation with the Amazon GameLift team.
+Special thanks to [Rushdown Studios](https://www.rushdownstudio.com/) for developing this tool in consultation with the Amazon GameLift team.
 
 ## Glossary
 
