@@ -12,6 +12,10 @@ git clone https://github.com/aws/amazon-gamelift-toolkit.git
 
 Navigate to the subfolders for different code samples.
 
+## List of tools
+
+* [Fast Build Update Tool](/fast-build-update-tool/README.md)
+
 ## List of samples
 
 * [Development Instance with Amazon GameLift Anywhere and Amazon GameLift Agent](/development-instance-with-amazon-gamelift-anywhere-and-gamelift-agent/README.md)
