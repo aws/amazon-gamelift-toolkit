@@ -79,6 +79,7 @@ The basic flow this tool follows is:
     * This project is written in Go. You will need Go 1.21.11 or newer compile the source. [Instructions to download and install Go can be found here.](https://go.dev/doc/install)
 1. **AWS CLI**
     * You will need to have the [AWS CLI](https://aws.amazon.com/cli/) installed on your local machine.
+    * Make sure you have the [default region configured](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) as the tool utilizes that to define the fleet location.
 1. **AWS CLI SSM Plugin**
     * Amazon GameLift uses [SSM](https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html) to manage remote instance connections. **[In order to use SSM you will need to install the SSM CLI plugin from Amazon. You can find instructions to do this here.](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html)**
 1. **Valid IAM Credentials**
@@ -239,7 +240,7 @@ If you would like a more complicated setup, you can read more about how CIDR not
 This is a simple command line tool that can be run from the shell of your choice (Bash, PowerShell, etc..). An example command of running this tool would look like the following:
 
 ```sh
-$ fastbuild --fleet-id=fleet-a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 --ip-range="$my_ip/32" --zip-path=./mygame.zip --private-key=MyPrivateKey.pem
+./fastbuild --fleet-id=fleet-a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 --ip-range="$my_ip/32" --zip-path=./mygame.zip --private-key=MyPrivateKey.pem
 ```
 
 ### Required Arguments
