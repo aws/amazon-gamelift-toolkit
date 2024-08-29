@@ -34,8 +34,7 @@ cd amazon-gamelift-toolkit/building-gamelift-server-sdk-for-unreal-engine-and-am
 ./buildbinaries.sh
 ```
 
-**Select** `Actions` and `Download` in CloudShell and type `AL2023GameliftUE5sdk.zip` to download the binaries to your local system. NOTE: If the download doesn't work in your browser, try to use the full path instead: `/home/cloudshell-user/amazon-gamelift-toolkit/building-gamelift-server-sdk-for-unreal-engine-and-amazon-linux/AL2023GameliftUE5sdk.zip`
-
+**Select** `Actions` and `Download` in CloudShell and type `/home/cloudshell-user/amazon-gamelift-toolkit/building-gamelift-server-sdk-for-unreal-engine-and-amazon-linux/AL2023GameliftUE5sdk.zip` to download the binaries to your local system.
 # Quick start with Amazon GameLift Unreal Plugin
 
 The Amazon GameLift Unreal plugin supports Linux-based deployments as long as you have the correct binaries available. If you feel like you already know what you're doing and only want to get the binaries to the right place, these steps help you do exactly that:
