@@ -9,10 +9,10 @@ class ParsedFleet:
                 fleet_json = json.load(file)
             # Mandatory inputs indexed directly to throw KeyError
             self.name = fleet_json['Name']
-            self.build_id = fleet_json['BuildId']
             self.ec2_instance_type = fleet_json['EC2InstanceType']
             self.runtime_configuration = fleet_json['RuntimeConfiguration']
             # Optional inputs read with json get
+            self.build_id = fleet_json.get('BuildId') # BuildId will be replaced even if set in json file
             self.description = fleet_json.get('Description')
             self.ec2_inbound_permissions = fleet_json.get('EC2InboundPermissions')
             self.new_game_session_protection_policy = fleet_json.get('NewGameSessionProtectionPolicy')

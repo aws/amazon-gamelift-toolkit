@@ -18,10 +18,10 @@ class TestParsedBuild(TestCase):
     def test_minimal_inputs(self):
         parsed_fleet = ParsedFleet('./test/test_data/fleet-minimal.json')
         self.assertEqual(parsed_fleet.name, 'TestName')
-        self.assertEqual(parsed_fleet.build_id, 'TestBuildId')
         self.assertEqual(parsed_fleet.ec2_instance_type, 'TestInstanceType')
         self.assertEqual(parsed_fleet.runtime_configuration, {'ServerProcesses': [
             {'LaunchPath': 'TestLaunchPath', 'Parameters': 'test-parameter-1', 'ConcurrentExecutions': 1}]})
+        self.assertIsNone(parsed_fleet.build_id)
         self.assertIsNone(parsed_fleet.description)
         self.assertIsNone(parsed_fleet.ec2_inbound_permissions)
         self.assertIsNone(parsed_fleet.new_game_session_protection_policy)

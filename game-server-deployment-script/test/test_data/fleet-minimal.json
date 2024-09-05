@@ -1,6 +1,5 @@
 {
   "Name": "TestName",
-  "BuildId": "TestBuildId",
   "EC2InstanceType": "TestInstanceType",
   "RuntimeConfiguration": {
     "ServerProcesses": [

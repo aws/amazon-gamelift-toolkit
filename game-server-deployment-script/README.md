@@ -10,6 +10,7 @@ Prerequisites
 1. Install python packages for unit testing:
    1. `pip install pytest`
    2. `pip install mock`
+   3. `pip install pytest-mock`
 
 Limitations
 -----------
@@ -65,3 +66,10 @@ How It Works
 1. Call `update-alias` to send traffic to the new Fleet.
 1. Loop calling `describe-game-sessions` on the old Fleet until there are none remaining.
 1. Call `delete-fleet` on the old Fleet.
+
+Running unit tests
+------------------
+Unit tests are written using pytest, simply run from the parent directory:
+```
+pytest
+```

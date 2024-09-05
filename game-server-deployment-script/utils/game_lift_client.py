@@ -8,32 +8,34 @@ class GameLiftClient:
         self.client = boto3.client('gamelift')
 
     def create_build(self, parsed_build: ParsedBuild):
-        return self.client.create_build(Name=parsed_build.name,
-                                        StorageLocation=parsed_build.storage_location,
-                                        Version=parsed_build.version,
-                                        OperatingSystem=parsed_build.operating_system,
-                                        Tags=parsed_build.tags,
-                                        ServerSdkVersion=parsed_build.server_sdk_version)
+        callargs = dict(Name=parsed_build.name,
+                        StorageLocation=parsed_build.storage_location,
+                        Version=parsed_build.version,
+                        OperatingSystem=parsed_build.operating_system,
+                        Tags=parsed_build.tags,
+                        ServerSdkVersion=parsed_build.server_sdk_version)
+        return self.client.create_build(**{k: v for k, v in callargs.items() if v is not None})
 
     def create_fleet(self, parsed_fleet: ParsedFleet):
-        return self.client.create_fleet(Name=parsed_fleet.name,
-                                        BuildId=parsed_fleet.build_id,
-                                        EC2InstanceType=parsed_fleet.ec2_instance_type,
-                                        RuntimeConfiguration=parsed_fleet.runtime_configuration,
-                                        Description=parsed_fleet.description,
-                                        EC2InboundPermissions=parsed_fleet.ec2_inbound_permissions,
-                                        NewGameSessionProtectionPolicy=parsed_fleet.new_game_session_protection_policy,
-                                        ResourceCreationLimitPolicy=parsed_fleet.resource_creation_limit_policy,
-                                        MetricGroups=parsed_fleet.metric_groups,
-                                        PeerVpcAwsAccountId=parsed_fleet.peer_vpc_aws_account_id,
-                                        PeerVpcId=parsed_fleet.peer_vpc_id,
-                                        FleetType=parsed_fleet.fleet_type,
-                                        InstanceRoleArn=parsed_fleet.instance_role_arn,
-                                        CertificateConfiguration=parsed_fleet.certificate_configuration,
-                                        Locations=parsed_fleet.locations,
-                                        Tags=parsed_fleet.tags,
-                                        ComputeType=parsed_fleet.compute_type,
-                                        AnywhereConfiguration=parsed_fleet.anywhere_configuration)
+        callargs = dict(Name=parsed_fleet.name,
+                        BuildId=parsed_fleet.build_id,
+                        EC2InstanceType=parsed_fleet.ec2_instance_type,
+                        RuntimeConfiguration=parsed_fleet.runtime_configuration,
+                        Description=parsed_fleet.description,
+                        EC2InboundPermissions=parsed_fleet.ec2_inbound_permissions,
+                        NewGameSessionProtectionPolicy=parsed_fleet.new_game_session_protection_policy,
+                        ResourceCreationLimitPolicy=parsed_fleet.resource_creation_limit_policy,
+                        MetricGroups=parsed_fleet.metric_groups,
+                        PeerVpcAwsAccountId=parsed_fleet.peer_vpc_aws_account_id,
+                        PeerVpcId=parsed_fleet.peer_vpc_id,
+                        FleetType=parsed_fleet.fleet_type,
+                        InstanceRoleArn=parsed_fleet.instance_role_arn,
+                        CertificateConfiguration=parsed_fleet.certificate_configuration,
+                        Locations=parsed_fleet.locations,
+                        Tags=parsed_fleet.tags,
+                        ComputeType=parsed_fleet.compute_type,
+                        AnywhereConfiguration=parsed_fleet.anywhere_configuration)
+        return self.client.create_fleet(**{k: v for k, v in callargs.items() if v is not None})
 
     def delete_fleet(self, fleet_id: str):
         return self.client.delete_fleet(FleetId=fleet_id)
