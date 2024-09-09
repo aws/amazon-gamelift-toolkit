@@ -50,8 +50,9 @@ class GameLiftClient:
         return self.client.describe_fleet_attributes(FleetIds=[fleet_id])
 
     def describe_fleet_location_attributes(self, fleet_id: str, locations):
-        return self.client.describe_fleet_location_attributes(FleetId=fleet_id,
-                                                              Locations=locations)
+        callargs = dict(FleetId=fleet_id,
+                        Locations=locations)
+        return self.client.describe_fleet_location_attributes(**{k: v for k, v in callargs.items() if v is not None})
 
     def describe_game_sessions(self, fleet_id: str):
         return self.client.describe_game_sessions(FleetId=fleet_id)

@@ -58,7 +58,7 @@ def wait_for_fleet_to_be_active(game_lift_client: GameLiftClient, _fleet_id: str
 # Method to wait for all game sessions to terminate on a fleet before continuing
 def wait_for_game_sessions_to_terminate(game_lift_client: GameLiftClient, _fleet_id: str):
     game_session_count = 1
-    print("\nPolling previous Fleet %s for GameSessions." % _fleet_id)
+    print("\nPolling previous Fleet %s for GameSessions..." % _fleet_id)
     while game_session_count > 0:
         time.sleep(GAME_SESSION_SLEEP)
         describe_game_sessions_response = game_lift_client.describe_game_sessions(_fleet_id)

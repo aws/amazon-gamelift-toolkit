@@ -65,7 +65,7 @@ def start(args):
     # Delete the previous Fleet
     print("\nDeleting previous Fleet %s." % previous_fleet_id)
     game_lift_client.delete_fleet(previous_fleet_id)
-    print("Deployment complete!")
+    print("Deployment complete to Fleet %s!" % new_fleet_id)
 
 
 # When called from the command line, will call into _parse, then start
