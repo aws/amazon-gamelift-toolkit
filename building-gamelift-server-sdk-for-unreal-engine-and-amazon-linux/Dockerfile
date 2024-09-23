@@ -20,10 +20,10 @@ cp ./openssl-OpenSSL_1_1_1n/libssl.so.1.1 /binaries/ && \
 cp ./openssl-OpenSSL_1_1_1n/libcrypto.so.1.1 /binaries/ 
 
 # Download and build the GameLift Server SDK (NOTE: You might need to change this to download a different SDK version)
-RUN echo "Download and unzip GameLift Server SDK 5.1.2" && \
+RUN echo "Download and unzip GameLift Server SDK 5.1.3" && \
 mkdir SDK && cd SDK && \
-wget https://gamelift-server-sdk-release.s3.us-west-2.amazonaws.com/cpp/GameLift-Cpp-ServerSDK-5.1.2.zip && \
-unzip GameLift-Cpp-ServerSDK-5.1.2.zip && \
+wget https://gamelift-server-sdk-release.s3.us-west-2.amazonaws.com/cpp/GameLift-Cpp-ServerSDK-5.1.3.zip && \
+unzip GameLift-Cpp-ServerSDK-5.1.3.zip && \
 echo "Build the GameLift server SDK" && \
 mkdir cmake-build && \
 cmake -G "Unix Makefiles" -DBUILD_FOR_UNREAL=1 -DCMAKE_BUILD_TYPE=Release -S . -B ./cmake-build && \
