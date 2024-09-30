@@ -95,6 +95,39 @@ func TestGetInstancesFleetLocationLookupError(t *testing.T) {
 	assert.ErrorIs(t, err, expectedErr)
 }
 
+// TestGetInstancesUnsupportedRegionError verifies that we properly handle the case where the call to DescribeFleetLocationAttributes returns an UnsupportedRegionException.
+// We should still try to fetch instances for fleets that do not have multi-location support.
+func TestGetInstancesUnsupportedRegionError(t *testing.T) {
+	awsMock := &AWSGameliftClientMock{}
+	client := &GameLiftClient{gamelift: awsMock}
+
+	// Return UnsupportedRegionException when DescribeFleetLocationAttributes is called
+	awsMock.DescribeFleetLocationAttributesFunc = func(ctx context.Context, params *gamelift.DescribeFleetLocationAttributesInput, optFns ...func(*gamelift.Options)) (*gamelift.DescribeFleetLocationAttributesOutput, error) {
+		err := new(types.UnsupportedRegionException)
+		return nil, err
+	}
+
+	// DescribeInstances will still function without the location parameter passed
+	awsMock.DescribeInstancesFunc = func(ctx context.Context, params *gamelift.DescribeInstancesInput, optFns ...func(*gamelift.Options)) (*gamelift.DescribeInstancesOutput, error) {
+		return &gamelift.DescribeInstancesOutput{
+			Instances: []types.Instance{
+				{OperatingSystem: types.OperatingSystemAmazonLinux2023, IpAddress: aws.String("127.0.0.2"), InstanceId: aws.String("us-west-instance-1"), Location: aws.String("us-west-1"), Status: types.InstanceStatusActive},
+			},
+		}, nil
+	}
+
+	instances, err := client.GetInstances(context.Background(), fleetId, []string{})
+
+	assert.Nil(t, err)
+
+	// Ensure we don't pass a location to the describe instances call
+	assert.Len(t, awsMock.DescribeInstancesCalls(), 1)
+	assert.Nil(t, awsMock.DescribeInstancesCalls()[0].Params.Location)
+
+	// Ensure the active instances are still returned
+	assert.Len(t, instances, 1)
+}
+
 // TestGetInstancesLookupInstancesError verifies that we properly handle errors when looking up instances
 func TestGetInstancesLookupInstancesError(t *testing.T) {
 	awsMock := &AWSGameliftClientMock{}
