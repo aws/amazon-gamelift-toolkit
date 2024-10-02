@@ -21,6 +21,7 @@ Keep in mind the following limitations, including best practices that the script
 * You must input the specific resources you want to update.  As a customization, you could use tags to list and find specific resources to replace in a more automated approach.
 * When replacing an existing Fleet with a new Fleet, be sure that the new Fleet's capacity matches the old Fleet to handle player traffic when redirected.  This can be done by setting [UpdateFleetCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetCapacity.html) values, applying a scaling policy with [PutScalingPolicy](https://docs.aws.amazon.com/gamelift/latest/apireference/API_PutScalingPolicy.html), or both.  This should be done after the Fleet is ACTIVE and before updating the Alias.
 * After player traffic is transitioned to the new Fleet, apply scaling policies to the new Fleet to reduce costs.
+* The script does not have features like error detection, resuming execution, or rollback options.
 
 Required Arguments
 ------------------
