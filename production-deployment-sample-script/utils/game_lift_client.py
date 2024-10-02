@@ -62,5 +62,5 @@ class GameLiftClient:
                                         RoutingStrategy={
                                             'Type': 'SIMPLE',
                                             'FleetId': fleet_id,
-                                            'Message': 'Updated via game_server_deployment script.'
+                                            'Message': 'Updated via production deployment sample script.'
                                         })
