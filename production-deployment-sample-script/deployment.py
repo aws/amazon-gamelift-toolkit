@@ -50,9 +50,9 @@ def start(args):
     utilities.wait_for_fleet_to_be_active(game_lift_client, new_fleet_id)
     print("All Fleet locations on %s are ACTIVE!" % new_fleet_id)
 
-    # ====================================================================================================
-    # NOTE: Should consider scale here, the new fleet might need more than 1 instance or scaling policies.
-    # ====================================================================================================
+    # ===============================================================================================================================
+    # NOTE: If your new Fleet requires more than 1 instance, this is where to insert calls to UpdateFleetCapacity / PutScalingPolicy.
+    # ===============================================================================================================================
 
     # Update the Alias with the new FleetId
     print("\nUpdating Alias %s from Fleet %s to new Fleet %s" % (alias_id, previous_fleet_id, new_fleet_id))

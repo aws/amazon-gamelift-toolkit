@@ -1,8 +1,7 @@
 Overview
 --------
 The purpose of this script is to help you deploy a game server update for Amazon GameLift hosting and then transition
-player traffic to game sessions running on the new game server.  This script requires that your game uses Aliases to
-designate the destination of your game sessions, either in your GameSessionQueue or in your game's call to CreateGameSession.  The mechanics of the script rely on the use of an Alias to designate a Fleet resource.  With this script, you upload the game server update as a new Build resource and deploy it to a new Fleet resource. The script then updates the Alias assignment from the current Fleet to the new Fleet, once the new Fleet is ready to accept player traffic.  From that point, players are directed to join game sessions that use the new version of the game server.
+player traffic to game sessions running on the new game server.  The mechanics of the script rely on the use of an Alias to designate a Fleet resource.  With this script, you upload the game server update as a new Build resource and deploy it to a new Fleet resource. The script then updates the Alias assignment from the current Fleet to the new Fleet, once the new Fleet is ready to accept player traffic.  At that point, players are directed to join game sessions that use the new version of the game server.
 
 Prerequisites
 -------------
@@ -17,10 +16,10 @@ Limitations
 This script offers a sample for uploading game server updates in a production environment. As your game hosting architecture matures to encompass multiple Fleets and AWS Regions, you'll need to customize the script to fit your deployment needs.
 
 Keep in mind the following limitations, including best practices that the script doesn't currently handle:
-* The script supports game server uploads from your own S3 Bucket only.
+* The script requires that your game uses [Aliases](https://docs.aws.amazon.com/gamelift/latest/developerguide/aliases-intro.html) to designate the destination of your game sessions, either in your GameSessionQueue or in your game's call to CreateGameSession.
+* The script only supports game server uploads from your own S3 Bucket.
 * You must input the specific resources you want to update.  As a customization, you could use tags to list and find specific resources to replace in a more automated approach.
-* When replacing an existing Fleet with a new Fleet, be sure that the new Fleet's capacity matches the old Fleet to handle player traffic when redirected.  This can be done by setting [UpdateFleetCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetCapacity.html) values, applying a scaling policy with [PutScalingPolicy](https://docs.aws.amazon.com/gamelift/latest/apireference/API_PutScalingPolicy.html), or both.  This should be done after the Fleet is ACTIVE and before updating the Alias.
-* After player traffic is transitioned to the new Fleet, apply scaling policies to the new Fleet to reduce costs.
+* When replacing an existing Fleet with a new Fleet, be sure that the new Fleet's capacity matches the old Fleet to handle player traffic when redirected.  This can be done by modifying the script to call [UpdateFleetCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetCapacity.html), applying a scaling policy with [PutScalingPolicy](https://docs.aws.amazon.com/gamelift/latest/apireference/API_PutScalingPolicy.html), or both.  This should be done after the Fleet is ACTIVE and before updating the Alias.
 * The script does not have features like error detection, resuming execution, or rollback options.
 
 Required Arguments
