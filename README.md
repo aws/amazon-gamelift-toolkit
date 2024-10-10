@@ -18,6 +18,7 @@ Navigate to the subfolders for different code samples.
 
 ## List of samples
 
+* [Production Deployment Sample Script](/production-deployment-sample-script/README.md)
 * [Development Instance with Amazon GameLift Anywhere and Amazon GameLift Agent](/development-instance-with-amazon-gamelift-anywhere-and-gamelift-agent/README.md)
 * [Building Amazon GameLift Server SDK for Unreal Engine and Amazon Linux](/building-gamelift-server-sdk-for-unreal-engine-and-amazon-linux/)
 
@@ -28,3 +29,4 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more inform
 ## License
 
 This project is licensed under the Apache-2.0 License.
+

@@ -1,0 +1,22 @@
+{
+  "Name": "TestBuild",
+  "Version": "TestVersion",
+  "StorageLocation": {
+    "Bucket": "test-bucket",
+    "Key": "test-key",
+    "RoleArn": "test-role-arn",
+    "ObjectVersion": "test-object-version"
+  },
+  "OperatingSystem": "TestOperatingSystem",
+  "Tags": [
+    {
+      "Key": "test-tag-key-1",
+      "Value": "test-tag-value-1"
+    },
+    {
+      "Key": "test-tag-key-2",
+      "Value": "test-tag-value-2"
+    }
+  ],
+  "ServerSdkVersion": "TestServerSdkVersion"
+}

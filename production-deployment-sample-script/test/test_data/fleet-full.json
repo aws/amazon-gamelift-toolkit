@@ -1,0 +1,74 @@
+{
+    "Name": "TestName",
+    "Description": "TestDescription",
+    "BuildId": "TestBuildId",
+    "EC2InstanceType": "TestInstanceType",
+    "EC2InboundPermissions": [
+        {
+            "FromPort": 100,
+            "ToPort": 101,
+            "IpRange": "1.1.1.1/32",
+            "Protocol": "UDP"
+        },
+        {
+            "FromPort": 200,
+            "ToPort": 201,
+            "IpRange": "2.2.2.2/32",
+            "Protocol": "UDP"
+        }
+    ],
+    "NewGameSessionProtectionPolicy": "TestProtectionPolicy",
+    "RuntimeConfiguration": {
+        "ServerProcesses": [
+            {
+                "LaunchPath": "TestLaunchPath",
+                "Parameters": "test-parameter-1",
+                "ConcurrentExecutions": 1
+            },
+            {
+                "LaunchPath": "TestLaunchPath",
+                "Parameters": "test-parameter-2",
+                "ConcurrentExecutions": 2
+            }
+        ],
+        "MaxConcurrentGameSessionActivations": 10,
+        "GameSessionActivationTimeoutSeconds": 10
+    },
+    "ResourceCreationLimitPolicy": {
+        "NewGameSessionsPerCreator": 10,
+        "PolicyPeriodInMinutes": 10
+    },
+    "MetricGroups": [
+        "test-metric-group-1",
+        "test-metric-group-2"
+    ],
+    "PeerVpcAwsAccountId": "TestPeerVpcAwsAccountId",
+    "PeerVpcId": "TestPeerVpcId",
+    "FleetType": "TestFleetType",
+    "InstanceRoleArn": "TestInstanceRoleArn",
+    "CertificateConfiguration": {
+        "CertificateType": "TestCertificateType"
+    },
+    "Locations": [
+        {
+            "Location": "test-location-1"
+        },
+        {
+            "Location": "test-location-2"
+        }
+    ],
+    "Tags": [
+        {
+            "Key": "test-tag-key-1",
+            "Value": "test-tag-value-1"
+        },
+        {
+            "Key": "test-tag-key-2",
+            "Value": "test-tag-value-2"
+        }
+    ],
+    "ComputeType": "TestComputeType",
+    "AnywhereConfiguration": {
+        "Cost": "TestCost"
+    }
+}

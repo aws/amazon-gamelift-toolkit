@@ -1,0 +1,13 @@
+{
+  "Name": "TestName",
+  "EC2InstanceType": "TestInstanceType",
+  "RuntimeConfiguration": {
+    "ServerProcesses": [
+      {
+        "LaunchPath": "TestLaunchPath",
+        "Parameters": "test-parameter-1",
+        "ConcurrentExecutions": 1
+      }
+    ]
+  }
+}

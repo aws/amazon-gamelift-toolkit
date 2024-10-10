@@ -1,0 +1,8 @@
+{
+  "Name": "TestBuild",
+  "StorageLocation": {
+    "Bucket": "test-bucket",
+    "Key": "test-key",
+    "RoleArn": "test-role-arn"
+  }
+}
