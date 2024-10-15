@@ -2,6 +2,7 @@ package gamelift
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 	"strings"
@@ -37,8 +38,19 @@ func (g *GameLiftClient) GetInstances(ctx context.Context, fleetId string, allow
 
 	// Fetch each instance in each location and add it to results
 	result := make([]*Instance, 0, 1)
-	for _, location := range locations {
-		result, err = g.getInstancesInternal(ctx, fleetId, location, result, nil)
+
+	if len(locations) > 0 {
+		// If locations were returned, fetch an instance in each location
+		for _, location := range locations {
+			result, err = g.getInstancesInternal(ctx, fleetId, location, result, nil)
+			if err != nil {
+				return make([]*Instance, 0), err
+			}
+		}
+
+	} else {
+		// If no locations were returned (no multi-location support), search for instances in the fleet without the location parameter
+		result, err = g.getInstancesInternal(ctx, fleetId, "", result, nil)
 		if err != nil {
 			return make([]*Instance, 0), err
 		}
@@ -53,6 +65,13 @@ func (g *GameLiftClient) getLocations(ctx context.Context, fleetId string, locat
 		FleetId:   aws.String(fleetId),
 		NextToken: nextToken,
 	})
+
+	// If the fleet does not have multi-location support, return an empty slice
+	var unsupportedRegion *types.UnsupportedRegionException
+	if errors.As(err, &unsupportedRegion) {
+		return []string{}, nil
+	}
+
 	if err != nil {
 		return locations, fmt.Errorf("error checking locations for fleet: %w", err)
 	}
@@ -73,11 +92,16 @@ func (g *GameLiftClient) getLocations(ctx context.Context, fleetId string, locat
 }
 
 func (g *GameLiftClient) getInstancesInternal(ctx context.Context, fleetId, location string, instances []*Instance, nextToken *string) ([]*Instance, error) {
-	instanceOutput, err := g.gamelift.DescribeInstances(ctx, &gamelift.DescribeInstancesInput{
+	describeInstancesInput := &gamelift.DescribeInstancesInput{
 		FleetId:   aws.String(fleetId),
-		Location:  aws.String(location),
 		NextToken: nextToken,
-	})
+	}
+
+	if location != "" {
+		describeInstancesInput.Location = aws.String(location)
+	}
+
+	instanceOutput, err := g.gamelift.DescribeInstances(ctx, describeInstancesInput)
 	if err != nil {
 		return instances, fmt.Errorf("error describing instances: %w", err)
 	}
