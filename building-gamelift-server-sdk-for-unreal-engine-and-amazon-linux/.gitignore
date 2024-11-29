@@ -1,0 +1,7 @@
+# Ignore all files created by `buildbinaries.sh`:
+include/
+cmake/
+libaws-cpp-sdk-gamelift-server.so
+AL2023GameliftUE5sdk.zip
+libcrypto.so*
+libssl.so*
