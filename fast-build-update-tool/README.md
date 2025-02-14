@@ -97,8 +97,22 @@ The basic flow this tool follows is:
     * You will need an SSH client with SCP installed on your local machine. Most Linux distros have SSH pre-installed. Windows users can either install Git for Windows which comes bundled with OpenSSH, or install OpenSSH separately.
 1. **Windows Client Only: ConPTY**
     * A version of Windows that supports ConPTY ([Windows 10 October 2018 Update (version 1809) or newer](https://learn.microsoft.com/en-us/windows/console/createpseudoconsole))
-    
 
+## SSH Key Setup
+
+Proper setup of your SSH key is crucial for this tool to function correctly.
+
+Windows Users:
+- Store your private key file in a secure location, such as your Documents folder.
+- Ensure the key file has the correct permissions. You can check this with:
+  icacls "C:\Users\YourUsername\Documents\MyPrivateKey.pem"
+
+Linux Users:
+- Set the correct permissions on your key file:
+  chmod 400 MyPrivateKey.pem
+- Verify the permissions with:
+  ls -l MyPrivateKey.pem
+    
 ## Downloading & Compiling the `Fast Build Update Tool`
 
 **Make sure you have all the pre-requisites outlined in the previous section before continuing.**
@@ -259,8 +273,9 @@ This is a simple command line tool that can be run from the shell of your choice
 | -------- |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | --instance-ids | A comma separated list of one or more instance ids you would like to update. Use this argument if you would only like to update specific instances, instead of every instance in a fleet.                   |
 | --restart-process | If this flag is passed the tool will only restart the running game server processes, and not actually upload and replace the current build. When this flag is set, the `zip-path` argument must not be set. |
-| --ssh-port | **WINDOWS ONLY** Override the port that is used for SSH. This number must be greater than 1025. The default value is 1026.                                                                                  |
+| --ssh-port | **WINDOWS ONLY** Override the port that is used for SSH. This number must be greater than 1025. The default value is 1026. NOTE: Custom SSH ports are not supported for Linux fleets. Linux fleets will always use the default SSH port 22.|
 | --verbose | Enable verbose logging instead of the default progress bar display. This can be useful for debugging potential issues.                                                                                      |
+              
 
 ### Debugging Common Issues
 
@@ -287,6 +302,30 @@ This means that the `--ip-range` argument was provided with an invalid value. Th
 #### `error parsing private key file`
 
 The file provided via the `--private-key` argument is not a valid private SSH key. The [Generating a Private SSH Key](#generating-a-private-ssh-key) section provides detail on how to generate a valid SSH key.
+
+#### SSH Connectivity Issues
+
+If you're experiencing SSH connection problems:
+
+1. Verify SSH port accessibility:
+   - For Windows (using PowerShell): 
+     Test-NetConnection -ComputerName your-instance-ip -Port (your port)
+   - For Linux: 
+     telnet your-instance-ip 22
+
+2. Check firewall settings:
+   - Ensure your firewall allows outbound connections on port 22 (for Linux) or your specified custom port (for Windows).
+   - If using a corporate network, you may need to request SSH port allowance from your IT department.
+
+3. Test direct SSH connection:
+   ssh -v -i your-key.pem ec2-user@your-instance-ip
+
+4. For Windows users:
+   - Ensure the private key file is stored in a location without special permissions (e.g., My Documents folder).
+   - If using Windows Defender Firewall, you may need to add an inbound rule to allow SSH traffic.
+
+5. For Linux users:
+   - Remember that custom SSH ports are not supported. Always use the default port 22.
 
 #### Other Issues
 
