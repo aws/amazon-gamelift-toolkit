@@ -1,0 +1,218 @@
+# Add a parameter for the zip file
+Parameters:
+  S3ObjectKey:
+    Type: String
+    Default: "gameserver.zip"
+  ContainerGroupName:
+    Type: String
+    Default: "MyGame"
+  FleetDescription:
+    Type: String
+    Default: "MyGameFleet"
+  FleetInstanceType:
+    Type: String
+    Default: "c6i.large"
+  vCPULimit:
+    Type: Number
+    Default: 0.5
+  MemoryLimit:
+    Type: Number
+    Default: 850
+  Port:
+    Type: Number
+    Default: 7777
+  Protocol:
+    Type: String
+    Default: "UDP"
+
+Resources:
+
+  # Create a versioned S3 bucket for storing the game server build
+  GameServerBuildBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      VersioningConfiguration:
+        Status: Enabled
+      BucketEncryption: 
+        ServerSideEncryptionConfiguration: 
+        - ServerSideEncryptionByDefault:
+            SSEAlgorithm: AES256
+
+  # Define an IAM role that can be assumed by GameLift for the fleet
+  FleetIAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - gamelift.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: /
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/GameLiftContainerFleetPolicy
+
+  # Define the Amazon GameLift Container fleet. We'll just do a single region and won't deploy anything on it just yet
+  ContainerFleet:
+    Type: AWS::GameLift::ContainerFleet
+    Properties:
+      Description: !Ref FleetDescription
+      FleetRoleArn: !GetAtt FleetIAMRole.Arn
+      InstanceType: !Ref FleetInstanceType
+
+  # CodeBuild role, this should be trimmed down to the access we actually need
+  CodeBuildRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+        Version: "2012-10-17"
+      # Custom policy to allow creating ECR repositories and pushing images to ECR
+      Policies:
+        - PolicyDocument:
+            Statement:
+              - Action:
+                  - ecr:CreateRepository
+                  - ecr:GetLoginPassword
+                  - ecr:GetAuthorizationToken
+                  - ecr:DescribeImages
+                  - ecr:BatchGetImage
+                  - ecr:CompleteLayerUpload
+                  - ecr:UploadLayerPart
+                  - ecr:InitiateLayerUpload
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:PutImage
+                  - ecr:GetDownloadUrlForLayer
+                  - iam:PassRole
+                Effect: Allow
+                Resource: "*"
+            Version: "2012-10-17"
+          PolicyName: GameServerCodeBuildECRPolicy
+        # Custom policy to allow describing and creating GameLift container groups, and updating a GameLift container fleet
+        - PolicyDocument:
+            Statement:
+              - Action:
+                  - gamelift:DescribeContainerGroupDefinition
+                  - gamelift:CreateContainerGroupDefinition
+                  - gamelift:UpdateContainerGroupDefinition
+                  - gamelift:UpdateContainerFleet
+                Effect: Allow
+                Resource: "*"
+            Version: "2012-10-17"
+          PolicyName: GameServerCodeBuildGameLiftPolicy
+        # custom policies for S3, CloudWatch and CodeBuild (baseline requirements)
+        - PolicyDocument:
+            Statement:
+              - Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                  - s3:GetObjectVersion
+                  - s3:GetBucketAcl
+                  - s3:GetBucketLocation
+                Effect: Allow
+                Resource: "*"
+            Version: "2012-10-17"
+          PolicyName: GameServerCodeBuildS3Policy
+        - PolicyDocument:
+            Statement:
+              - Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                  - codebuild:CreateReportGroup
+                  - codebuild:CreateReport
+                  - codebuild:UpdateReport
+                  - codebuild:BatchPutTestCases
+                  - codebuild:BatchPutCodeCoverages
+                Effect: Allow
+                Resource: "*"
+            Version: "2012-10-17"
+          PolicyName: GameServerCodeBuildLogPolicy
+      Path: /service-role/ 
+    Metadata:
+      aws:cdk:path: DeploymentPipelineStack/CodeBuildRole/Resource
+
+  # CodeBuild project 
+  GameServerCodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Artifacts:
+        Type: NO_ARTIFACTS
+      Cache:
+        Type: NO_CACHE
+      EncryptionKey: alias/aws/s3
+      Environment:
+        ComputeType: BUILD_GENERAL1_MEDIUM
+        Image: aws/codebuild/standard:7.0
+        ImagePullCredentialsType: CODEBUILD
+        PrivilegedMode: false
+        Type: LINUX_CONTAINER
+      Name: GameServerBuildProject
+      ServiceRole:
+        Fn::GetAtt:
+          - CodeBuildRole
+          - Arn
+      Source:
+        BuildSpec: !Sub |-
+          version: 0.2
+          phases:
+            install:
+              runtime-versions:
+                golang: "1.22"
+            build:
+              commands:
+                - ACCOUNT_ID=$(echo $CODEBUILD_BUILD_ARN | cut -f5 -d ':')
+                - cd SdkGoWrapper
+                - mkdir gamelift-server-sdk
+                - cd gamelift-server-sdk
+                - wget https://gamelift-server-sdk-release.s3.us-west-2.amazonaws.com/go/GameLift-Go-ServerSDK-5.2.0.zip
+                - unzip -q GameLift-Go-ServerSDK-5.2.0.zip
+                - cd ..
+                - go mod tidy
+                - go build
+                - cd ..
+                - aws ecr create-repository --repository-name game-server || true
+                - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+                - docker buildx build ./ --platform=linux/amd64 -t $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/game-server:latest
+                - docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/game-server:latest
+                - |
+                  if aws gamelift describe-container-group-definition --name "${ContainerGroupName}" 2>/dev/null >/dev/null; then
+                    aws gamelift update-container-group-definition --name ${ContainerGroupName} \
+                    --total-vcpu-limit "${vCPULimit}" \
+                    --total-memory-limit-mebibytes "${MemoryLimit}" \
+                    --game-server-container-definition "{\"ContainerName\":\"gameserver\",\"ImageUri\":\"${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/game-server:latest\",\"PortConfiguration\":{\"ContainerPortRanges\":[{\"FromPort\":${Port},\"ToPort\":${Port},\"Protocol\":\"${Protocol}\"}]},\"ServerSdkVersion\":\"5.2.0\"}"
+                  else
+                    aws gamelift create-container-group-definition \
+                      --name "${ContainerGroupName}" \
+                      --operating-system "AMAZON_LINUX_2023" \
+                      --total-vcpu-limit "${vCPULimit}" \
+                      --total-memory-limit-mebibytes "${MemoryLimit}" \
+                      --game-server-container-definition "{\"ContainerName\":\"gameserver\",\"ImageUri\":\"${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/game-server:latest\",\"PortConfiguration\":{\"ContainerPortRanges\":[{\"FromPort\":${Port},\"ToPort\":${Port},\"Protocol\":\"${Protocol}\"}]},\"ServerSdkVersion\":\"5.2.0\"}"
+                  fi
+                - |
+                  while true; do
+                    STATUS=$(aws gamelift describe-container-group-definition --name ${ContainerGroupName} --query ContainerGroupDefinition.Status --output text 2>/dev/null)
+                    if [ "$STATUS" = "READY" ]; then
+                        echo "Container group is now READY!"
+                        break  # This exits the while loop
+                    fi
+                    echo "Current status: $STATUS. Waiting..."
+                    sleep 1
+                  done
+                - LATEST_VERSION=$(aws gamelift describe-container-group-definition --name ${ContainerGroupName} --query ContainerGroupDefinition.VersionNumber)
+                - aws gamelift update-container-fleet --fleet-id ${ContainerFleet} --game-server-container-group-definition-name ${ContainerGroupName}
+        Location: !Sub "${GameServerBuildBucket}/${S3ObjectKey}"
+        Type: S3
+
+Outputs:
+  GameServerBuildBucket:
+    Value: !Sub "https://${AWS::Region}.console.aws.amazon.com/s3/buckets/${GameServerBuildBucket}"
+  GameServerCodeBuildProject:
+    Value: !Sub "https://${AWS::Region}.console.aws.amazon.com/codesuite/codebuild/${AWS::AccountId}/projects/GameServerBuildProject"

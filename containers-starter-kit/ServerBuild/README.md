@@ -1,0 +1,1 @@
+# Copy your game server contents to this folder
