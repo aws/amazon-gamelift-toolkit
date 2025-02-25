@@ -31,8 +31,8 @@ You should also open the `containers-starter-kit` folder in your favorite IDE or
 1. Copy your game server Linux build to the `ServerBuild` folder. This is typically an Unreal or Unity headless server build, but it can be any binary that runs on Linux.
 2. Open `wrapper.sh` and set
     1. The port you're using for your game server (`PORT=1234`)
-    2. Your game server binary path (`SERVER_BINARY_PATH=ServerBuild/yourgameserverbinaryhere`)
-3. Create a zip file called `gameserver.zip`that contains all the files compressed _from the root_ of this folder (including the SdkGoWrapper and ServerBuild subfolders). **NOTE:** This zip file should **not** include the parent folder, you need to include all the files and folders _inside_ the parent folder for the zip (such as wrapper.h, Dockerfile, and the subfolders). 
+    2. Your game server binary path (`SERVER_BINARY_PATH=ServerBuild/yourgameserverbinaryhere`). For Unreal games, reference the full path to the binary. If you use the .sh launcher, follow the instructions in wrapper.sh to make both the shell script and the binary executable.
+3. Create a zip file called `gameserver.zip`that contains all the files compressed _from the root_ of the `containers-starter-kit` folder (including the SdkGoWrapper and ServerBuild subfolders). **NOTE:** This zip file should **not** include the parent folder itself. You need to include all the files and folders _inside_ the parent folder for the zip (such as wrapper.h, Dockerfile, and the subfolders). 
 
 **NOTE:** The Dockerfile is configured to run as a custom non-root user to support Unreal Engine server builds. If you run a Unreal server binary directly, the above works as is. If you however want to run the `yourgameserver.sh` file, make sure to modify the wrapper to make that executable too (see wrapper.sh notes).
 
