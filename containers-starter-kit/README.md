@@ -1,6 +1,6 @@
 # Amazon GameLift Containers Starter Kit
 
-This solution provides an easy start with Container Fleets on Amazon GameLift. You can use any game server Linux binary you have, and you are not required to integrate with the Amazon GameLift Server SDK to get started. We also utilize AWS CloudFormation and Amazon CodeBuild to create the required Amazon GameLift resources, and to deploy new game server versions on the fleet. You don't need to install any tools locally, and can simply upload your game server build to Amazon S3 and deploy with a single button in the CodeBuild project.
+This solution provides an easy start with Container Fleets on Amazon GameLift. You can use any game server Linux binary you have, and you are not required to integrate with the Amazon GameLift Server SDK to get started. We also utilize AWS CloudFormation and AWS CodeBuild to create the required Amazon GameLift resources, and to deploy new game server versions on the fleet. You don't need to install any tools locally, and can simply upload your game server build to Amazon S3 and deploy with a single button in the CodeBuild project.
 
 When you want to take advantage of the full features of the Amazon GameLift Server SDK, you can follow the instructions to [integrate with the Amazon GameLift Server SDK directly](#removing-the-wrapper-to-utilize-the-amazon-gamelift-server-sdk-directly).
 
@@ -112,7 +112,7 @@ The solution consists of a few key components. These components include
 * **SdkGoWrapper** which is automatically built as part of the CodeBuild project. It utilizes the Amazon GameLift Server SDK for Go, and automatically registers and terminates your game server process
 * **wrapper.sh** which runs the SdkGoWrapper in the background, registering the port you have defined to Amazon GameLift. It also runs your game server binary, and waits for it to terminate. Once it terminates, it will signal the SdkGoWrapper to correctly terminate the game session from Amazon GameLift
 * **Dockerfile** which includes the setup for creating a container image that contains the built SdkGoWrapper and your game server binary. It utilizes the `wrapper.sh` as the entry point of the container
-* **fleet_deployment_pipeline.yml** which deploys an Amazon S3 bucket for game server build hosting, as well as the Amazon GameLift container fleet that will host your game server builds. It also deploys an Amazon CodeBuild project which builds your container image, uploads it to Amazon ECR, and deploys a new Container Group Definition version to your fleet
+* **fleet_deployment_pipeline.yml** which deploys an Amazon S3 bucket for game server build hosting, as well as the Amazon GameLift container fleet that will host your game server builds. It also deploys an AWS CodeBuild project which builds your container image, uploads it to Amazon ECR, and deploys a new Container Group Definition version to your fleet
 
 ## Go SDK Wrapper Implementation
 
