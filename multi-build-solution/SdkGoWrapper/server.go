@@ -1,3 +1,8 @@
+/*
+ * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+ 
 package main
 
 import (
@@ -30,12 +35,62 @@ func (g gameProcess) OnStartGameSession(session model.GameSession) {
         
         // Store the session in the global variable
         GameSession = session
-        // Activate the game session when it's created
-        err := server.ActivateGameSession()
-        if err != nil {
-                log.Fatal(err.Error())
+        
+        // Extract build version from game properties
+        buildVersion := ""
+        if val, ok := session.GameProperties["BuildVersion"]; ok {
+                buildVersion = val
+                log.Printf("Build version from GameProperties: %s", buildVersion)
+        } else {
+                log.Print("WARNING: No BuildVersion specified in GameProperties, using 'default'")
+                buildVersion = "default"
         }
-        log.Print("Activated game session")
+        
+        // Write build version to file for wrapper.sh to read
+        err := os.WriteFile("/tmp/build_version.txt", []byte(buildVersion), 0644)
+        if err != nil {
+                log.Printf("ERROR: Failed to write build version file: %s", err.Error())
+        } else {
+                log.Printf("Build version written to /tmp/build_version.txt: %s", buildVersion)
+        }
+        
+        // Wait for wrapper.sh to signal that the game server process has started
+        log.Print("Waiting for game server to start (60 second timeout)...")
+        activationFile := "/tmp/activate_session.txt"
+        timeout := time.After(60 * time.Second)
+        ticker := time.NewTicker(5 * time.Second)
+        defer ticker.Stop()
+        
+        startTime := time.Now()
+        for {
+                select {
+                case <-timeout:
+                        log.Printf("ERROR: Game server failed to start within 60 seconds")
+                        log.Printf("Elapsed time: %.1f seconds", time.Since(startTime).Seconds())
+                        log.Print("Calling ProcessEnding() and terminating container...")
+                        server.ProcessEnding()
+                        os.Exit(1)
+                case <-ticker.C:
+                        elapsed := time.Since(startTime).Seconds()
+                        log.Printf("Still waiting for activation file... (%.1f seconds elapsed)", elapsed)
+                        
+                        if _, err := os.Stat(activationFile); err == nil {
+                                // File exists, game server is ready
+                                log.Printf("Game server ready signal received after %.1f seconds", elapsed)
+                                
+                                // Activate the game session now that server is running
+                                err = server.ActivateGameSession()
+                                if err != nil {
+                                        log.Fatal(err.Error())
+                                }
+                                log.Print("Activated game session")
+                                
+                                // Clean up the activation file
+                                os.Remove(activationFile)
+                                return
+                        }
+                }
+        }
 }
 
 func (g gameProcess) OnUpdateGameSession(session model.UpdateGameSession) {
