@@ -159,7 +159,7 @@ func GameSessionData(w http.ResponseWriter, req *http.Request) {
                         return
                 }
                 w.Header().Set("Content-Type", "application/json")
-                fmt.Fprintf(w, string(jsonBytes))
+                w.Write(jsonBytes)
                 return
         }
 
@@ -174,7 +174,7 @@ func GameSessionData(w http.ResponseWriter, req *http.Request) {
                 return
         }
         w.Header().Set("Content-Type", "application/json")
-        fmt.Fprintf(w, string(jsonBytes))
+        w.Write(jsonBytes)
 }
 
 func main() {

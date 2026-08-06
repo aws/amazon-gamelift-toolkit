@@ -76,7 +76,7 @@ The basic flow this tool follows is:
 1. **Fleet resource**
     * To take advantage of this tool you must have a pre-existing Amazon GameLift Servers fleet that runs on managed EC2 instances.
 1. **Go**
-    * This project is written in Go. You will need Go 1.21.11 or newer compile the source. [Instructions to download and install Go can be found here.](https://go.dev/doc/install)
+    * This project is written in Go. You will need Go 1.25.0 or newer compile the source. [Instructions to download and install Go can be found here.](https://go.dev/doc/install)
 1. **AWS CLI**
     * You will need to have the [AWS CLI](https://aws.amazon.com/cli/) installed on your local machine.
     * Make sure you have the [default region configured](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) as the tool utilizes that to define the fleet location.
